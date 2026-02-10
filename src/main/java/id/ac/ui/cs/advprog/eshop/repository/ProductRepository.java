@@ -26,26 +26,8 @@ public class ProductRepository {
 
     // FITUR BARU
 
-    // Mencari produk berdasarkan ID
-    public Product findById(String id) {
-        for (Product product : productData) {
-            if (product.getProductId().equals(id)) {
-                return product;
-            }
-        }
-        return null;
-    }
-
-    // Edit produk
-    public Product edit(Product product) {
-        for (int i = 0; i < productData.size(); i++) {
-            Product product1 = productData.get(i);
-            if (product1.getProductId().equals(product.getProductId())) {
-                product1.setProductName(product.getProductName());
-                product1.setProductQuantity(product.getProductQuantity());
-                return product1;
-            }
-        }
-        return null;
+    // Delete
+    public void delete(String id) {
+        productData.removeIf(product -> product.getProductId().equals(id));
     }
 }
