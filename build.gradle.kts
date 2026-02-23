@@ -70,6 +70,7 @@ tasks.test{
     }
 
     finalizedBy(tasks.jacocoTestReport)
+
 }
 
 tasks.jacocoTestReport{
