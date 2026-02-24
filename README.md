@@ -56,12 +56,11 @@ Untuk membuat kode lebih bersih, kita sebaiknya menggunakan teknik Inheritance a
 
 1. List the code quality issue(s) that you fixed during the exercise and explain your strategy
    on fixing them. <br>
-   - Test Coverage Tidak Lengkap (Branch Coverage): Laporan JaCoCo menunjukkan bahwa beberapa method, terutama findById<br> 
+- Test Coverage Tidak Lengkap (Branch Coverage): Laporan JaCoCo menunjukkan bahwa beberapa method, terutama findById<br> 
 di ProductRepository, belum dites pada beberapa jalur percabangan (kondisi if/else). Strategi saya adalah membuat skenario<br>
 unit test yang komprehensif untuk mencakup semua kemungkinan eksekusi kode, termasuk skenario positif (produk ditemukan), <br>
 skenario negatif (produk tidak ditemukan), dan edge case (saat repositori kosong), yang akhirnya menaikkan coverage menjadi 100%.<br>
-<br>
-   - Saat fase testing, saya menemukan peringatan bahwa anotasi org.springframework.boot.test.mock.mockito.MockBean sudah deprecated <br>
+- Saat fase testing, saya menemukan peringatan bahwa anotasi org.springframework.boot.test.mock.mockito.MockBean sudah deprecated <br>
 sejak Spring Boot versi 3.4.0. Strategi saya untuk memperbaikinya adalah dengan memperbarui baris import dan mengganti @MockBean dengan <br>
 anotasi @MockitoBean yang lebih modern untuk memastikan kode tetap maintainable dan kompatibel dengan pembaruan Spring Boot di masa depan. <br>
 <br>
