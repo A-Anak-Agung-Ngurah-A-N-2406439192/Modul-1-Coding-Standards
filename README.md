@@ -61,10 +61,10 @@ di ProductRepository, belum dites pada beberapa jalur percabangan (kondisi if/el
 unit test yang komprehensif untuk mencakup semua kemungkinan eksekusi kode, termasuk skenario positif (produk ditemukan), <br>
 skenario negatif (produk tidak ditemukan), dan edge case (saat repositori kosong), yang akhirnya menaikkan coverage menjadi 100%.<br>
 <br>
-- Saat fase testing, saya menemukan peringatan bahwa anotasi org.springframework.boot.test.mock.mockito.MockBean sudah deprecated <br>
+   - Saat fase testing, saya menemukan peringatan bahwa anotasi org.springframework.boot.test.mock.mockito.MockBean sudah deprecated <br>
 sejak Spring Boot versi 3.4.0. Strategi saya untuk memperbaikinya adalah dengan memperbarui baris import dan mengganti @MockBean dengan <br>
 anotasi @MockitoBean yang lebih modern untuk memastikan kode tetap maintainable dan kompatibel dengan pembaruan Spring Boot di masa depan. <br>
-
+<br>
 2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current
    implementation has met the definition of Continuous Integration and Continuous<br>
    Deployment? Explain the reasons (minimum 3 sentences)!<br>
