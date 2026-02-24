@@ -35,7 +35,7 @@ Tidak, 100% code coverage tidak menjamin bahwa kode bebas dari bug atau error.<b
 - Code coverage tidak menjamin kebenaran logika (misalnya, kodenya jalan, tapi rumus perhitungannya salah).<br>
 - Code coverage mungkin tidak menangkap masalah concurrency atau masalah integrasi.<br>
 
-# 2. Functional Testing & Clean Code
+2. Functional Testing & Clean Code
 Clean code dari functional test suite yang baru:
 Membuat kelas functional test baru dengan menyalin prosedur setup dan variabel instance yang persis sama dari kelas sebelumnya melibatkan banyak duplikasi kode.<br>
 
@@ -51,3 +51,25 @@ Untuk membuat kode lebih bersih, kita sebaiknya menggunakan teknik Inheritance a
    - Menginisialisasi `baseUrl`.<br>
    - Konfigurasi WebDriver yang umum digunakan.<br>
 - Buat `CreateProductFunctionalTest` dan class tes baru lainnya mewarisi (extends) `BaseFunctionalTest` ini.<br>
+
+# Reflection 3
+
+1. List the code quality issue(s) that you fixed during the exercise and explain your strategy
+   on fixing them. <br>
+   - Test Coverage Tidak Lengkap (Branch Coverage): Laporan JaCoCo menunjukkan bahwa beberapa method, terutama findById<br> 
+di ProductRepository, belum dites pada beberapa jalur percabangan (kondisi if/else). Strategi saya adalah membuat skenario<br>
+unit test yang komprehensif untuk mencakup semua kemungkinan eksekusi kode, termasuk skenario positif (produk ditemukan), <br>
+skenario negatif (produk tidak ditemukan), dan edge case (saat repositori kosong), yang akhirnya menaikkan coverage menjadi 100%.<br>
+<br>
+- Saat fase testing, saya menemukan peringatan bahwa anotasi org.springframework.boot.test.mock.mockito.MockBean sudah deprecated <br>
+sejak Spring Boot versi 3.4.0. Strategi saya untuk memperbaikinya adalah dengan memperbarui baris import dan mengganti @MockBean dengan <br>
+anotasi @MockitoBean yang lebih modern untuk memastikan kode tetap maintainable dan kompatibel dengan pembaruan Spring Boot di masa depan. <br>
+
+2. Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current
+   implementation has met the definition of Continuous Integration and Continuous<br>
+   Deployment? Explain the reasons (minimum 3 sentences)!<br>
+   Ya, saya rasa implementasi saat ini sudah berhasil memenuhi definisi dari Continuous Integration (CI) dan Continuous Deployment (CD).<br>
+   Untuk aspek Continuous Integration, workflow GitHub Actions yang saya buat akan secara otomatis melakukan proses build, mengeksekusi seluruh unit test <br>
+dan functional test, serta menjalankan analisis kualitas kode menggunakan SonarCloud setiap kali ada kode baru yang di-push ke GitHub.<br>
+   Untuk aspek Continuous Deployment, saya telah mengonfigurasi workflow GitHub Actions (cd.yml) yang terhubung ke Heroku. Artinya, begitu kode baru selesai di-push<br>
+dan lolos pengecekan CI (ci.yml) dengan status success, workflow CD akan otomatis berjalan untuk mem-build dan men-deploy aplikasi ke server live Heroku.<br>
