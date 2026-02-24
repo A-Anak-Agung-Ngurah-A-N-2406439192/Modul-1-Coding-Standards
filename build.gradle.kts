@@ -88,5 +88,6 @@ sonar {
         property("sonar.projectKey", "A-Anak-Agung-Ngurah-A-N-2406439192_Modul-1-Coding-Standards")
         property("sonar.organization", "a-anak-agung-ngurah-a-n-2406439192")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.coverage.jacoco.xmlReportPaths", layout.buildDirectory.dir("reports/jacoco/test/jacocoTestReport.xml").get().asFile.path)
     }
 }
