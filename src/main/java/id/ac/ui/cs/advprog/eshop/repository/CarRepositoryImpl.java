@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class CarRepositoryImpl implements CarRepository {
+public class CarRepositoryImpl implements CarReadRepository, CarWriteRepository {
 
     static int id = 0;
 

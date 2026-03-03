@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class ProductRepositoryImpl implements ProductRepository {
+public class ProductRepositoryImpl implements ProductReadRepository, ProductWriteRepository {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
