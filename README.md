@@ -52,7 +52,7 @@ Untuk membuat kode lebih bersih, kita sebaiknya menggunakan teknik Inheritance a
    - Konfigurasi WebDriver yang umum digunakan.<br>
 - Buat `CreateProductFunctionalTest` dan class tes baru lainnya mewarisi (extends) `BaseFunctionalTest` ini.<br>
 
-# Reflection 3
+# Reflection 3 (Module 2)
 
 1. List the code quality issue(s) that you fixed during the exercise and explain your strategy
    on fixing them. <br>
@@ -72,3 +72,41 @@ anotasi @MockitoBean yang lebih modern untuk memastikan kode tetap maintainable 
 dan functional test, serta menjalankan analisis kualitas kode menggunakan SonarCloud setiap kali ada kode baru yang di-push ke GitHub.<br>
    Untuk aspek Continuous Deployment, saya telah mengonfigurasi workflow GitHub Actions (cd.yml) yang terhubung ke Heroku. Artinya, begitu kode baru selesai di-push<br>
 dan lolos pengecekan CI (ci.yml) dengan status success, workflow CD akan otomatis berjalan untuk mem-build dan men-deploy aplikasi ke server live Heroku.<br>
+
+# Reflection 4 (Module 3)
+
+1) Explain what principles you apply to your project!
+   Dalam proyek ini, saya telah menerapkan kelima prinsip SOLID untuk memastikan kode lebih modular, mudah di-maintain, dan mudah dikembangkan:
+
+SRP (Single Responsibility Principle): Saya memisahkan CarController dari ProductController.java menjadi filenya sendiri. Dengan ini, setiap kelas hanya memiliki satu tanggung jawab (mengurus routing Product atau Car saja). Selain itu, pemisahan tugas juga jelas antara Controller (routing), Service (logika bisnis), dan Repository (penyimpanan data).
+
+OCP (Open/Closed Principle): Pada ProductRepositoryImpl dan CarRepositoryImpl, saya memodifikasi fungsi edit dan update. Alih-alih memperbarui atribut objek satu per satu (seperti setName, setQuantity), kode sekarang langsung menimpa objek di dalam List (menggunakan data.set(index, updatedObject)). Ini membuat kelas terbuka untuk ekstensi (menambah atribut baru di Model) namun tertutup untuk modifikasi (tidak perlu mengubah kode fungsi edit di Repository).
+
+LSP (Liskov Substitution Principle): Saya menghapus extends ProductController pada CarController. CarController pada dasarnya bukanlah turunan dari ProductController, sehingga memaksakan inheritance di sini akan melanggar LSP karena subclass tidak bisa menggantikan superclass-nya secara natural.
+
+ISP (Interface Segregation Principle): Saya memecah antarmuka (interface) yang terlalu besar ("gendut") menjadi lebih spesifik. ProductService dan ProductRepository dipecah menjadi antarmuka untuk operasi baca (Read) dan operasi tulis (Write), contohnya: ProductReadService dan ProductWriteService. Hal yang sama juga diterapkan pada entitas Car.
+
+DIP (Dependency Inversion Principle): Modul tingkat tinggi sekarang bergantung pada abstraksi, bukan implementasi konkret.
+
+Pada Controller, saya mengubah injeksi dari kelas konkret menjadi Interface (contoh: @Autowired private CarService alih-alih CarServiceImpl).
+
+Pada Service, saya mengubah injeksi Repository agar menggunakan Interface (contoh: @Autowired private ProductWriteRepository), bukan menembak langsung ke kelas ProductRepositoryImpl.
+
+2) Explain the advantages of applying SOLID principles to your project with examples.
+   Menerapkan prinsip SOLID memberikan banyak keuntungan jangka panjang bagi proyek:
+
+Kemudahan Pemeliharaan (Maintainability): Berkat penerapan OCP, jika di masa depan saya perlu menambahkan atribut carBrand atau productPrice pada model data, saya tidak perlu lagi membuka dan memodifikasi kode fungsi update di dalam kelas Repository. Kode lama aman dari risiko bug baru akibat modifikasi.
+
+Mudah Diuji (Testability): Berkat DIP, pengujian (Unit Testing) menjadi jauh lebih mudah. Pada ProductServiceImplTest, saya bisa dengan mudah melakukan mocking pada antarmuka ProductWriteRepository tanpa perlu memikirkan bagaimana implementasi asli (seperti ProductRepositoryImpl) bekerja atau terhubung ke penyimpanan aslinya.
+
+Modularitas dan Keamanan Kode: Dengan penerapan ISP, kelas yang membutuhkan data hanya akan diberikan akses ke metode yang relevan. Misalnya, jika suatu saat ada fitur yang tugasnya hanya untuk display katalog ke pembeli, saya cukup menginjeksi ProductReadService. Kelas tersebut tidak akan bisa (secara tidak sengaja) memanggil fungsi delete() karena metode tersebut berada di ProductWriteService.
+
+
+3) Explain the disadvantages of not applying SOLID principles to your project with examples.
+   Jika tidak menerapkan prinsip SOLID, proyek akan berubah menjadi Spaghetti Code yang kaku, rapuh, dan sulit diperbaiki:
+
+Kaku Terhadap Perubahan (Rigidity): Tanpa OCP, fungsi update di Repository akan mendaftar pembaruan properti satu per satu (car.setCarColor(...), car.setCarName(...)). Setiap kali ada penambahan satu atribut baru di model, developer wajib mengingat untuk membuka Repository dan menambahkan baris kode baru. Jika terlupa, aplikasi akan mengalami bug di mana data baru tidak tersimpan saat diedit.
+
+Ketergantungan yang Kuat (Tight Coupling): Jika mengabaikan DIP, maka kelas tingkat tinggi akan sangat bergantung pada detail low-level. Misalnya, jika CarServiceImpl bergantung langsung pada CarRepositoryImpl (yang menyimpannya di memori/List), maka saat proyek ingin bermigrasi menggunakan Database (misal PostgreSQL), saya harus membongkar dan menulis ulang banyak kode di dalam CarServiceImpl.
+
+Polusi Antarmuka (Interface Pollution): Tanpa memedulikan ISP dan SRP, kita akan menumpuk semua kode di satu tempat (seperti menggabungkan semua urusan mobil di dalam ProductController). Ini membuat file menjadi sangat panjang (ribuan baris), pengerjaan secara tim (kolaborasi Git) akan sangat rentan terkena merge conflict, dan kode sulit dipahami oleh developer baru.
