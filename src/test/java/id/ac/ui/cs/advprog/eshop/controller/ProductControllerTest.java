@@ -25,9 +25,6 @@ class ProductControllerTest {
     @MockitoBean
     private ProductService productService;
 
-    @MockitoBean
-    private CarServiceImpl carService;
-
     @Test
     void testCreateProductPage() throws Exception {
         mockMvc.perform(get("/product/create"))
