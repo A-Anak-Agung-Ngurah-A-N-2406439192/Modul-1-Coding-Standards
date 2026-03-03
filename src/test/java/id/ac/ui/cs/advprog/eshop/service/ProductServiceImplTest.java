@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
+import id.ac.ui.cs.advprog.eshop.repository.ProductReadRepository;
+import id.ac.ui.cs.advprog.eshop.repository.ProductWriteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +20,12 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
+    // DIPISAH SESUAI ISP
     @Mock
-    private ProductRepository productRepository;
+    private ProductWriteRepository productWriteRepository;
+
+    @Mock
+    private ProductReadRepository productReadRepository;
 
     @InjectMocks
     private ProductServiceImpl productService;
@@ -36,10 +42,10 @@ class ProductServiceImplTest {
 
     @Test
     void testCreate() {
-        when(productRepository.create(product)).thenReturn(product);
+        when(productWriteRepository.create(product)).thenReturn(product);
         Product created = productService.create(product);
         assertEquals(product, created);
-        verify(productRepository, times(1)).create(product);
+        verify(productWriteRepository, times(1)).create(product);
     }
 
     @Test
@@ -48,7 +54,7 @@ class ProductServiceImplTest {
         productList.add(product);
         Iterator<Product> iterator = productList.iterator();
 
-        when(productRepository.findAll()).thenReturn(iterator);
+        when(productReadRepository.findAll()).thenReturn(iterator);
 
         List<Product> result = productService.findAll();
         assertEquals(1, result.size());
@@ -57,22 +63,22 @@ class ProductServiceImplTest {
 
     @Test
     void testFindById() {
-        when(productRepository.findById(product.getProductId())).thenReturn(product);
+        when(productReadRepository.findById(product.getProductId())).thenReturn(product);
         Product result = productService.findById(product.getProductId());
         assertEquals(product, result);
     }
 
     @Test
     void testEdit() {
-        when(productRepository.edit(product)).thenReturn(product);
+        when(productWriteRepository.edit(product)).thenReturn(product);
         Product result = productService.edit(product);
         assertEquals(product, result);
     }
 
     @Test
     void testDelete() {
-        doNothing().when(productRepository).delete(product.getProductId());
+        doNothing().when(productWriteRepository).delete(product.getProductId());
         productService.delete(product.getProductId());
-        verify(productRepository, times(1)).delete(product.getProductId());
+        verify(productWriteRepository, times(1)).delete(product.getProductId());
     }
 }

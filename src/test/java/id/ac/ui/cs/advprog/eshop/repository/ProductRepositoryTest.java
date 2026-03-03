@@ -6,17 +6,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Iterator;
 
 import static org.junit.jupiter.api. Assertions .*;
 
-@ExtendWith (MockitoExtension. class)
+@ExtendWith(MockitoExtension.class)
 class ProductRepositoryTest {
 
+    // UBAH JADI CLASS IMPL
     @InjectMocks
-    ProductRepository productRepository;
+    ProductRepositoryImpl productRepository;
 
     @BeforeEach
     void setUp() {
@@ -69,7 +69,6 @@ class ProductRepositoryTest {
 
     @Test
     void testEditProduct() {
-        // Skenario Positif: Edit produk yang ada
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product.setProductName("Sampo Cap Bambang");
@@ -93,7 +92,6 @@ class ProductRepositoryTest {
 
     @Test
     void testEditProductNotFound() {
-        // Skenario Negatif: Edit produk yang tidak ada ID-nya
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product.setProductName("Sampo Cap Bambang");
@@ -111,7 +109,6 @@ class ProductRepositoryTest {
 
     @Test
     void testDeleteProduct() {
-        // Skenario Positif: Delete produk yang ada
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product.setProductName("Sampo Cap Bambang");
@@ -126,7 +123,6 @@ class ProductRepositoryTest {
 
     @Test
     void testDeleteProductNotFound() {
-        // Skenario Negatif: Delete ID yang tidak ada
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         product.setProductName("Sampo Cap Bambang");
@@ -180,7 +176,6 @@ class ProductRepositoryTest {
     @Test
     void testFindByIdIfEmpty() {
         Product foundProduct = productRepository.findById("some-id");
-
         assertNull(foundProduct);
     }
 }

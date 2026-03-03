@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
+import id.ac.ui.cs.advprog.eshop.service.ProductReadService;
+import id.ac.ui.cs.advprog.eshop.service.ProductWriteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,7 +23,10 @@ class ProductControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private ProductService productService;
+    private ProductReadService productReadService;
+
+    @MockitoBean
+    private ProductWriteService productWriteService;
 
     @Test
     void testCreateProductPage() throws Exception {
@@ -34,7 +39,7 @@ class ProductControllerTest {
     @Test
     void testCreateProductPost() throws Exception {
         Product product = new Product();
-        when(productService.create(any(Product.class))).thenReturn(product);
+        when(productWriteService.create(any(Product.class))).thenReturn(product);
 
         mockMvc.perform(post("/product/create")
                         .flashAttr("product", product))
@@ -44,7 +49,7 @@ class ProductControllerTest {
 
     @Test
     void testProductListPage() throws Exception {
-        when(productService.findAll()).thenReturn(Arrays.asList(new Product()));
+        when(productReadService.findAll()).thenReturn(Arrays.asList(new Product()));
 
         mockMvc.perform(get("/product/list"))
                 .andExpect(status().isOk())
@@ -55,7 +60,7 @@ class ProductControllerTest {
     @Test
     void testEditProductPage() throws Exception {
         Product product = new Product();
-        when(productService.findById("123")).thenReturn(product);
+        when(productReadService.findById("123")).thenReturn(product);
 
         mockMvc.perform(get("/product/edit/123"))
                 .andExpect(status().isOk())
@@ -66,7 +71,7 @@ class ProductControllerTest {
     @Test
     void testEditProductPost() throws Exception {
         Product product = new Product();
-        when(productService.edit(any(Product.class))).thenReturn(product);
+        when(productWriteService.edit(any(Product.class))).thenReturn(product);
 
         mockMvc.perform(post("/product/edit")
                         .flashAttr("product", product))
