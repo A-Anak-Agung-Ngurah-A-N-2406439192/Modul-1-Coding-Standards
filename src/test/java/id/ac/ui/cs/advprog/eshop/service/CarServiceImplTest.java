@@ -27,11 +27,11 @@ public class CarServiceImplTest {
 
     @BeforeEach
     void setUp(){
-        Car car = new Car();
-        car.setCarId("testcarid");
-        car.setCarColor("white");
-        car.setCarName("Lamborghini");
-        car.setCarQuantity(100);
+        this.car = new Car();
+        this.car.setCarId("testcarid");
+        this.car.setCarColor("white");
+        this.car.setCarName("Lamborghini");
+        this.car.setCarQuantity(100);
     }
 
     @Test
