@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class ProductRepository {
+public class ProductRepositoryImpl implements ProductReadRepository, ProductWriteRepository {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
@@ -39,11 +39,10 @@ public class ProductRepository {
     // Edit produk
     public Product edit(Product product) {
         for (int i = 0; i < productData.size(); i++) {
-            Product product1 = productData.get(i);
-            if (product1.getProductId().equals(product.getProductId())) {
-                product1.setProductName(product.getProductName());
-                product1.setProductQuantity(product.getProductQuantity());
-                return product1;
+            Product currentProduct = productData.get(i);
+            if (currentProduct.getProductId().equals(product.getProductId())) {
+                productData.set(i, product);
+                return product;
             }
         }
         return null;

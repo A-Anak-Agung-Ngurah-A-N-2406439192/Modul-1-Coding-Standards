@@ -10,13 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Iterator;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
 public class CarRepositoryTest {
+
+    // UBAH JADI CLASS IMPL
     @InjectMocks
-    CarRepository carRepository;
+    CarRepositoryImpl carRepository;
 
     @BeforeEach
     void setUp(){

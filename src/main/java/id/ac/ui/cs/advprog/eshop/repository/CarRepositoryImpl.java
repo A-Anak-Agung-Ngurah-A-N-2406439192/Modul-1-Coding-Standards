@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class CarRepository {
+public class CarRepositoryImpl implements CarReadRepository, CarWriteRepository {
 
     static int id = 0;
 
@@ -42,14 +42,12 @@ public class CarRepository {
         for (int i = 0; i < carData.size(); i++) {
             Car car = carData.get(i);
             if (car.getCarId().equals(id)) {
-                // Update the existing car with the new information
-                car.setCarName(updatedCar.getCarName());
-                car.setCarColor(updatedCar.getCarColor());
-                car.setCarQuantity(updatedCar.getCarQuantity());
-                return car;
+                updatedCar.setCarId(id);
+                carData.set(i, updatedCar);
+                return updatedCar;
             }
         }
-        return null; // Handle the case where the car is not found
+        return null;
     }
 
     public void delete(String id) {

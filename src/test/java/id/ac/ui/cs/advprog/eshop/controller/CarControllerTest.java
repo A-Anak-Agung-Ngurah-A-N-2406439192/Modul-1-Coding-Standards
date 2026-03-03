@@ -1,8 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
 import id.ac.ui.cs.advprog.eshop.model.Car;
-import id.ac.ui.cs.advprog.eshop.service.CarServiceImpl;
-import id.ac.ui.cs.advprog.eshop.service.ProductService;
+import id.ac.ui.cs.advprog.eshop.service.CarReadService;
+import id.ac.ui.cs.advprog.eshop.service.CarWriteService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,10 +23,10 @@ class CarControllerTest {
     private MockMvc mockMvc;
 
     @MockitoBean
-    private ProductService productService;
+    private CarReadService carReadService;
 
     @MockitoBean
-    private CarServiceImpl carService;
+    private CarWriteService carWriteService;
 
     @Test
     void testCreateCarPage() throws Exception {
@@ -40,7 +40,7 @@ class CarControllerTest {
     void testCreateCarPost() throws Exception {
         Car car = new Car();
         car.setCarId("123");
-        when(carService.create(any(Car.class))).thenReturn(car);
+        when(carWriteService.create(any(Car.class))).thenReturn(car);
 
         mockMvc.perform(post("/car/createCar")
                         .flashAttr("car", car))
@@ -50,7 +50,7 @@ class CarControllerTest {
 
     @Test
     void testCarListPage() throws Exception {
-        when(carService.findAll()).thenReturn(Arrays.asList(new Car()));
+        when(carReadService.findAll()).thenReturn(Arrays.asList(new Car()));
 
         mockMvc.perform(get("/car/listCar"))
                 .andExpect(status().isOk())
@@ -61,7 +61,7 @@ class CarControllerTest {
     @Test
     void testEditCarPage() throws Exception {
         Car car = new Car();
-        when(carService.findById("123")).thenReturn(car);
+        when(carReadService.findById("123")).thenReturn(car);
 
         mockMvc.perform(get("/car/editCar/123"))
                 .andExpect(status().isOk())
