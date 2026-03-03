@@ -4,8 +4,10 @@ import id.ac.ui.cs.advprog.eshop.model.Car;
 import id.ac.ui.cs.advprog.eshop.repository.CarRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
+@ExtendWith(MockitoExtension.class)
 public class CarServiceImplTest {
     @Mock
     CarRepository carRepository;
@@ -57,7 +60,7 @@ public class CarServiceImplTest {
         Car findCar = carService.findById(car.getCarId());
         assertNotNull(findCar);
         assertEquals("Lamborghini", findCar.getCarName());
-        verify(carRepository, times(1)).findById("testidcar");
+        verify(carRepository, times(1)).findById("testcarid");
     }
 
     @Test

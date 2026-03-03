@@ -69,9 +69,9 @@ public class CarRepositoryTest {
         carRepository.create(car);
 
         Car updatedCar = new Car();
-        car.setCarColor("black");
-        car.setCarName("Ferrari");
-        car.setCarQuantity(10);
+        updatedCar.setCarColor("black");
+        updatedCar.setCarName("Ferrari");
+        updatedCar.setCarQuantity(10);
 
         Car result = carRepository.update(car.getCarId(), updatedCar);
 
