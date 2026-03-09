@@ -1,7 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.enums;
 
 import lombok.Getter;
-import org.mockito.internal.matchers.Or;
 
 @Getter
 public enum OrderStatus {
