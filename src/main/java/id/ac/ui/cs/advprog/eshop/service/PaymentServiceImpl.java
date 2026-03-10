@@ -26,14 +26,18 @@ public class PaymentServiceImpl implements PaymentService {
         Payment p = paymentRepository.findById(payment.getId());
         if (p != null) {
             p.setStatus(status);
-            if ("SUCCESS".equals(status)) {
-                p.getOrder().setStatus("SUCCESS");
-            } else if ("REJECTED".equals(status)) {
-                p.getOrder().setStatus("FAILED");
-            }
+            updateOrderStatus(p, status); // Refactor: panggil method
             paymentRepository.save(p);
         }
         return p;
+    }
+
+    private void updateOrderStatus(Payment payment, String status) {
+        if ("SUCCESS".equals(status)) {
+            payment.getOrder().setStatus("SUCCESS");
+        } else if ("REJECTED".equals(status)) {
+            payment.getOrder().setStatus("FAILED");
+        }
     }
 
     @Override
