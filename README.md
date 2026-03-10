@@ -110,3 +110,20 @@ Kaku Terhadap Perubahan (Rigidity): Tanpa OCP, fungsi update di Repository akan 
 Ketergantungan yang Kuat (Tight Coupling): Jika mengabaikan DIP, maka kelas tingkat tinggi akan sangat bergantung pada detail low-level. Misalnya, jika CarServiceImpl bergantung langsung pada CarRepositoryImpl (yang menyimpannya di memori/List), maka saat proyek ingin bermigrasi menggunakan Database (misal PostgreSQL), saya harus membongkar dan menulis ulang banyak kode di dalam CarServiceImpl.
 
 Polusi Antarmuka (Interface Pollution): Tanpa memedulikan ISP dan SRP, kita akan menumpuk semua kode di satu tempat (seperti menggabungkan semua urusan mobil di dalam ProductController). Ini membuat file menjadi sangat panjang (ribuan baris), pengerjaan secara tim (kolaborasi Git) akan sangat rentan terkena merge conflict, dan kode sulit dipahami oleh developer baru.
+
+# Reflection 5 (Module 4)
+
+**1. Refleksi berdasarkan pertanyaan reflektif Percival (2017) terkait alur TDD:**
+Berdasarkan pertanyaan refleksi diri yang diajukan oleh Percival, alur TDD ini terbukti sangat berguna bagi proses pengembangan saya. Menulis *test* terlebih dahulu memaksa saya untuk berpikir dari sudut pandang pengguna dan mempertimbangkan dengan cermat ekspektasi perilaku program serta *edge cases* sebelum menulis implementasi kodenya. Alur ini memberikan *feedback* instan, sehingga saya lebih yakin bahwa fitur yang dibuat berfungsi dengan benar dan membantu saya mendeteksi *bug* logika sejak awal. Selain itu, *test* ini juga berfungsi sebagai *executable documentation* yang sangat membantu.
+
+Jika ada hal yang perlu ditingkatkan untuk pembuatan *test* berikutnya, saya harus meluangkan lebih banyak waktu untuk menganalisis nilai batas (*boundary values*) dan menulis struktur *test* yang lebih bersih. Hal ini penting agar *test* yang dibuat tidak menjadi beban *maintenance* ketika ada perubahan kebutuhan bisnis di masa mendatang.
+
+**2. Refleksi penerapan prinsip F.I.R.S.T. pada Unit Test di Tutorial:**
+Saya merasa *unit test* yang telah saya buat di tutorial sudah berhasil mengikuti prinsip F.I.R.S.T. dengan baik:
+* **Fast (Cepat):** *Test* berjalan dengan sangat cepat karena terisolasi dengan baik dan menggunakan *mocking* untuk *dependencies*, bukan bergantung pada *database* asli atau koneksi jaringan.
+* **Independent (Mandiri):** Setiap *unit test* berdiri sendiri. Dengan memanfaatkan anotasi *setup* seperti `@BeforeEach` pada JUnit, *test* tidak saling bergantung pada *state* atau urutan eksekusi *test* lainnya.
+* **Repeatable (Dapat Diulang):** *Test* memberikan hasil yang deterministik dan konsisten meskipun dijalankan berulang kali di berbagai *environment* yang berbeda.
+* **Self-validating (Memvalidasi Diri Sendiri):** Setiap *test* memiliki *assertions* yang jelas. Hasil *pass* atau *fail* ditentukan secara otomatis oleh sistem tanpa perlu mengecek *output* konsol secara manual.
+* **Timely (Tepat Waktu):** *Test* ditulis tepat sebelum kode produksi dibuat, secara ketat mematuhi siklus *Red-Green-Refactor* dalam TDD.
+
+Untuk pembuatan *test* ke depannya, hal utama yang ingin saya tingkatkan adalah cakupan *test cases*. Saya berencana untuk lebih memperbanyak *negative test cases* dan pengujian batas (*boundary testing*) agar aplikasi lebih tangguh dalam menangani *input* pengguna yang tidak sesuai atau tidak terduga.
