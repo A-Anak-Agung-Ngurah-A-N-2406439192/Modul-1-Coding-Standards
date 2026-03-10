@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,15 +49,56 @@ class PaymentControllerTest {
 
     @Test
     void testPaymentAdminDetail() throws Exception {
+        id.ac.ui.cs.advprog.eshop.model.Product product = new id.ac.ui.cs.advprog.eshop.model.Product();
+        product.setProductId("prod-1");
+        product.setProductQuantity(1);
+        java.util.List<id.ac.ui.cs.advprog.eshop.model.Product> products = new java.util.ArrayList<>();
+        products.add(product);
+
+        id.ac.ui.cs.advprog.eshop.model.Order order = new id.ac.ui.cs.advprog.eshop.model.Order("order-1", products, 12345L, "Test");
+        java.util.Map<String, String> data = new java.util.HashMap<>();
+        data.put("bankName", "BCA");
+        data.put("referenceCode", "12345");
+        id.ac.ui.cs.advprog.eshop.model.Payment dummyPayment = new id.ac.ui.cs.advprog.eshop.model.Payment("pay-1", "BANK_TRANSFER", data, order);
+
+        when(paymentService.getPayment("pay-1")).thenReturn(dummyPayment);
+
         mockMvc.perform(get("/payment/admin/detail/pay-1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("payment/adminDetail"));
     }
 
     @Test
-    void testPaymentAdminSetStatus() throws Exception {
+    void testPaymentAdminSetStatusPaymentFound() throws Exception {
+        id.ac.ui.cs.advprog.eshop.model.Product product = new id.ac.ui.cs.advprog.eshop.model.Product();
+        product.setProductId("prod-1");
+        product.setProductQuantity(1);
+        java.util.List<id.ac.ui.cs.advprog.eshop.model.Product> products = new java.util.ArrayList<>();
+        products.add(product);
+
+        id.ac.ui.cs.advprog.eshop.model.Order order = new id.ac.ui.cs.advprog.eshop.model.Order("order-1", products, 12345L, "Test");
+        java.util.Map<String, String> data = new java.util.HashMap<>();
+        data.put("bankName", "BCA");
+        data.put("referenceCode", "12345");
+        Payment dummyPayment = new Payment("pay-1", "BANK_TRANSFER", data, order);
+
+        when(paymentService.getPayment("pay-1")).thenReturn(dummyPayment);
+
         mockMvc.perform(post("/payment/admin/set-status/pay-1").param("status", "SUCCESS"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/payment/admin/list"));
+
+        verify(paymentService, times(1)).setStatus(dummyPayment, "SUCCESS");
+    }
+
+    @Test
+    void testPaymentAdminSetStatusPaymentNotFound() throws Exception {
+        when(paymentService.getPayment("pay-99")).thenReturn(null);
+
+        mockMvc.perform(post("/payment/admin/set-status/pay-99").param("status", "SUCCESS"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/payment/admin/list"));
+
+        verify(paymentService, never()).setStatus(any(), anyString());
     }
 }

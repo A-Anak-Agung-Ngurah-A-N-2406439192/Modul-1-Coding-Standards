@@ -36,12 +36,12 @@ public class OrderController {
     @GetMapping("/pay/{orderId}")
     public String payOrderPage(@PathVariable String orderId, Model model) {
         model.addAttribute("orderId", orderId);
-        return "order/payOrder";
+        return "order/pay/payOrder";
     }
 
     @PostMapping("/pay/{orderId}")
     public String payOrderPost(@PathVariable String orderId, Model model) {
         model.addAttribute("paymentId", "DUMMY-PAY-" + orderId);
-        return "order/paySuccess";
+        return "order/pay/paySuccess";
     }
 }

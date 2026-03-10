@@ -51,13 +51,13 @@ class OrderControllerTest {
     void testPayOrderPage() throws Exception {
         mockMvc.perform(get("/order/pay/order-1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("order/payOrder"));
+                .andExpect(view().name("order/pay/payOrder"));
     }
 
     @Test
     void testPayOrderPost() throws Exception {
         mockMvc.perform(post("/order/pay/order-1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("order/paySuccess"));
+                .andExpect(view().name("order/pay/paySuccess"));
     }
 }
