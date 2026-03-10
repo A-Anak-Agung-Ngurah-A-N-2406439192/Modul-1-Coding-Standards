@@ -20,15 +20,19 @@ public class Payment {
         this.order = order;
 
         if ("BANK_TRANSFER".equals(method)) {
-            if (paymentData == null || paymentData.isEmpty() ||
-                    paymentData.getOrDefault("bankName", "").isEmpty() ||
-                    paymentData.getOrDefault("referenceCode", "").isEmpty()) {
-                this.status = "REJECTED";
-            } else {
-                this.status = "SUCCESS";
-            }
+            validateBankTransfer();
         } else {
             this.status = "REJECTED";
+        }
+    }
+
+    private void validateBankTransfer() {
+        if (this.paymentData == null || this.paymentData.isEmpty() ||
+                this.paymentData.getOrDefault("bankName", "").isEmpty() ||
+                this.paymentData.getOrDefault("referenceCode", "").isEmpty()) {
+            this.status = "REJECTED";
+        } else {
+            this.status = "SUCCESS";
         }
     }
 }
