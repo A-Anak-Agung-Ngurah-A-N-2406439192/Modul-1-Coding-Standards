@@ -42,4 +42,10 @@ class PaymentRepositoryTest {
         List<Payment> allPayments = paymentRepository.findAll();
         assertEquals(1, allPayments.size());
     }
+
+    @Test
+    void testFindByIdNotFound() {
+        Payment found = paymentRepository.findById("ID_NGASAL_TIDAK_ADA");
+        assertNull(found);
+    }
 }

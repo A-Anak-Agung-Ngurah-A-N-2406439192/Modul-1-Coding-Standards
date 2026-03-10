@@ -71,4 +71,22 @@ class PaymentTest {
         Payment payment = new Payment("pay-3", "BANK_TRANSFER", paymentData, order);
         assertEquals("REJECTED", payment.getStatus());
     }
+
+    @Test
+    void testCreatePaymentInvalidMethod() {
+        Payment payment = new Payment("pay-1", "CASH", new HashMap<>(), order);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentBankTransferNullPaymentData() {
+        Payment payment = new Payment("pay-1", "BANK_TRANSFER", null, order);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentVoucherNullPaymentData() {
+        Payment payment = new Payment("pay-1", "VOUCHER", null, order);
+        assertEquals("REJECTED", payment.getStatus());
+    }
 }

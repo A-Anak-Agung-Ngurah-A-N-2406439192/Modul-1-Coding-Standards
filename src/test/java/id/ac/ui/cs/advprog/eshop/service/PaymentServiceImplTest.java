@@ -58,4 +58,43 @@ class PaymentServiceImplTest {
         assertEquals("REJECTED", result.getStatus());
         assertEquals("FAILED", result.getOrder().getStatus());
     }
+
+    @Test
+    void testAddPayment() {
+        when(paymentRepository.save(any(Payment.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Payment result = paymentService.addPayment(order, "BANK_TRANSFER", payment.getPaymentData());
+
+        assertNotNull(result);
+        assertEquals("BANK_TRANSFER", result.getMethod());
+        verify(paymentRepository, times(1)).save(any(Payment.class));
+    }
+
+    @Test
+    void testGetPayment() {
+        when(paymentRepository.findById("pay-1")).thenReturn(payment);
+        Payment result = paymentService.getPayment("pay-1");
+        assertNotNull(result);
+        assertEquals(payment.getId(), result.getId());
+    }
+
+    @Test
+    void testGetAllPayment() {
+        List<Payment> paymentList = new ArrayList<>();
+        paymentList.add(payment);
+        when(paymentRepository.findAll()).thenReturn(paymentList);
+
+        List<Payment> result = paymentService.getAllPayment();
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void testSetStatusPaymentNotFound() {
+        when(paymentRepository.findById("pay-invalid")).thenReturn(null);
+
+        Payment dummyPayment = new Payment("pay-invalid", "BANK_TRANSFER", new HashMap<>(), order);
+        Payment result = paymentService.setStatus(dummyPayment, "SUCCESS");
+
+        assertNull(result);
+    }
 }
