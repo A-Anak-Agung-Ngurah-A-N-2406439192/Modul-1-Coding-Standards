@@ -2,8 +2,12 @@ package id.ac.ui.cs.advprog.eshop.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class PaymentTest {
@@ -11,7 +15,15 @@ class PaymentTest {
 
     @BeforeEach
     void setUp() {
-        order = new Order("order-1", null, 123456789L, "Safira");
+        Product product = new Product();
+        product.setProductId("prod-1");
+        product.setProductName("Dummy Product");
+        product.setProductQuantity(1);
+
+        List<Product> products = new ArrayList<>();
+        products.add(product);
+
+        order = new Order("order-1", products, 123456789L, "Safira");
     }
 
     @Test
