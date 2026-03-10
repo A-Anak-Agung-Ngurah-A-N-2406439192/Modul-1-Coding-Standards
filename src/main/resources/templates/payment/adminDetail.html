@@ -1,0 +1,4 @@
+<form th:action="@{/payment/admin/set-status/{id}(id=${payment.id})}" method="post">
+  <select name="status"><option value="SUCCESS">Accept</option><option value="REJECTED">Reject</option></select>
+  <button type="submit">Set Status</button>
+</form>

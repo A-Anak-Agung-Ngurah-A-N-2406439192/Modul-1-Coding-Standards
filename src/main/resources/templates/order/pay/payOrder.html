@@ -1,0 +1,4 @@
+<h1>Pay Order <span th:text="${orderId}"></span></h1>
+<form th:action="@{/order/pay/{id}(id=${orderId})}" method="post">
+  <button type="submit">Proses Pembayaran</button>
+</form>
