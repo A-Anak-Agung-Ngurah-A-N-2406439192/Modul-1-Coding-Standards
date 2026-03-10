@@ -71,4 +71,22 @@ class PaymentTest {
         Payment payment = new Payment("pay-3", "BANK_TRANSFER", paymentData, order);
         assertEquals("REJECTED", payment.getStatus());
     }
+
+    @Test
+    void testCreatePaymentBankTransferSuccess() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("bankName", "BCA");
+        paymentData.put("referenceCode", "1234567890");
+        Payment payment = new Payment("pay-3", "BANK_TRANSFER", paymentData, order);
+        assertEquals("SUCCESS", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentBankTransferEmptyBankName() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("bankName", "");
+        paymentData.put("referenceCode", "1234567890");
+        Payment payment = new Payment("pay-4", "BANK_TRANSFER", paymentData, order);
+        assertEquals("REJECTED", payment.getStatus());
+    }
 }
