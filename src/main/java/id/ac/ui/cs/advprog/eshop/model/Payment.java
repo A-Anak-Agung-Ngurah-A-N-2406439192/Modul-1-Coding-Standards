@@ -19,7 +19,15 @@ public class Payment {
         this.paymentData = paymentData;
         this.order = order;
 
-        if ("BANK_TRANSFER".equals(method)) {
+        if ("VOUCHER".equals(method)) {
+            if (paymentData != null && paymentData.containsKey("voucherCode") &&
+                    paymentData.get("voucherCode").startsWith("ESHOP") &&
+                    paymentData.get("voucherCode").length() == 16) {
+                this.status = "SUCCESS";
+            } else {
+                this.status = "REJECTED";
+            }
+        } else if ("BANK_TRANSFER".equals(method)) {
             validateBankTransfer();
         } else {
             this.status = "REJECTED";
