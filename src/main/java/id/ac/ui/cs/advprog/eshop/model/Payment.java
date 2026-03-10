@@ -20,13 +20,7 @@ public class Payment {
         this.order = order;
 
         if ("VOUCHER".equals(method)) {
-            if (paymentData != null && paymentData.containsKey("voucherCode") &&
-                    paymentData.get("voucherCode").startsWith("ESHOP") &&
-                    paymentData.get("voucherCode").length() == 16) {
-                this.status = "SUCCESS";
-            } else {
-                this.status = "REJECTED";
-            }
+            validateVoucher();
         } else if ("BANK_TRANSFER".equals(method)) {
             validateBankTransfer();
         } else {
@@ -41,6 +35,16 @@ public class Payment {
             this.status = "REJECTED";
         } else {
             this.status = "SUCCESS";
+        }
+    }
+
+    private void validateVoucher() {
+        if (this.paymentData != null && this.paymentData.containsKey("voucherCode") &&
+                this.paymentData.get("voucherCode").startsWith("ESHOP") &&
+                this.paymentData.get("voucherCode").length() == 16) {
+            this.status = "SUCCESS";
+        } else {
+            this.status = "REJECTED";
         }
     }
 }
