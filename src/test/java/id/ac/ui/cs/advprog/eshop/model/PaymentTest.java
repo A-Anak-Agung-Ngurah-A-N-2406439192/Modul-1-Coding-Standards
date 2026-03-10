@@ -27,6 +27,22 @@ class PaymentTest {
     }
 
     @Test
+    void testCreatePaymentVoucherSuccess() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP12345678901");
+        Payment payment = new Payment("pay-1", "VOUCHER", paymentData, order);
+        assertEquals("SUCCESS", payment.getStatus());
+    }
+
+    @Test
+    void testCreatePaymentVoucherRejected() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "SALAHKODE123");
+        Payment payment = new Payment("pay-2", "VOUCHER", paymentData, order);
+        assertEquals("REJECTED", payment.getStatus());
+    }
+
+    @Test
     void testCreatePaymentBankTransferSuccess() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("bankName", "BCA");
