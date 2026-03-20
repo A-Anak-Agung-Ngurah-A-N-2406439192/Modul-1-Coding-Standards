@@ -110,3 +110,4 @@ Kaku Terhadap Perubahan (Rigidity): Tanpa OCP, fungsi update di Repository akan 
 Ketergantungan yang Kuat (Tight Coupling): Jika mengabaikan DIP, maka kelas tingkat tinggi akan sangat bergantung pada detail low-level. Misalnya, jika CarServiceImpl bergantung langsung pada CarRepositoryImpl (yang menyimpannya di memori/List), maka saat proyek ingin bermigrasi menggunakan Database (misal PostgreSQL), saya harus membongkar dan menulis ulang banyak kode di dalam CarServiceImpl.
 
 Polusi Antarmuka (Interface Pollution): Tanpa memedulikan ISP dan SRP, kita akan menumpuk semua kode di satu tempat (seperti menggabungkan semua urusan mobil di dalam ProductController). Ini membuat file menjadi sangat panjang (ribuan baris), pengerjaan secara tim (kolaborasi Git) akan sangat rentan terkena merge conflict, dan kode sulit dipahami oleh developer baru.
+
